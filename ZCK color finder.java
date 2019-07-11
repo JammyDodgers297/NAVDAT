@@ -57,8 +57,8 @@ public class colorfinderblack {
             }
             if(col == ColorSensor.Color.RED) {
     		// We found red, so play a happy sound
-    		    speaker.playTone(440,300);
-    		    speaker.playTone(523,200);
+    		speaker.playTone(440,300);
+    		speaker.playTone(523,200);
                 break;
             }
             else {
