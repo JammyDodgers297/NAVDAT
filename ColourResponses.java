@@ -31,6 +31,11 @@ public class ColourResponses {
         
         
         while (true){
+            leftMotor.setSpeed(150);
+    	    rightMotor.setSpeed(150);
+            frontMotor.setSpeed(10);
+            leftMotor.forward();
+		    rightMotor.forward(); 
             checkcolor();
             if (col==ColorSensor.Color.BLUE){
                 speaker.playTone(796,123);
@@ -55,13 +60,8 @@ public class ColourResponses {
 			    speaker.playTone(856,435);
 			    System.out.println("PERSON IN DANGER");
             }
-            else{
-                leftMotor.setSpeed(250);
-    	        rightMotor.setSpeed(250);
-		        leftMotor.forward();
-		        rightMotor.forward(); 
-        
-            }
+
+
         }
       
 
@@ -70,28 +70,31 @@ public class ColourResponses {
         
     
     private static void blue() {
-        col = sensor.getColor();
+        frontMotor.setSpeed(0);
+        checkcolor();
         while (col==ColorSensor.Color.BLUE){
-            gobackward(10);
-            col = sensor.getColor();
+            gobackward(2);
+            checkcolor();
             System.out.println(col);
         }
     
 
-        turnRight(90);//turn 90 degrees
-        goforward(50);//forwards radius of circle
-        turnLeft(90);//turn towards top of circle
-        goforward(100);//go along length of circle
-        turnLeft(90);
-        goforward(50);
+        turnRight(100);//turn 90 degrees
+        goforward(100);//forwards radius of circle
+        turnLeft(100);//turn towards top of circle
+        goforward(300);//go along length of circle
+        turnLeft(100);
+        goforward(100);
     }
         
     private static void red() {
+        frontMotor.setSpeed(0);
         col = sensor.getColor();
         while (col==ColorSensor.Color.RED){
-            gobackward(10);
+            gobackward(2);
             col = sensor.getColor();
             System.out.println(col);
+
         }
     
 
@@ -103,14 +106,10 @@ public class ColourResponses {
         goforward(120);
         }
     private static void green() {
-        while (col==ColorSensor.Color.GREEN){
-            frontMotor.setSpeed(0);
-            leftMotor.setSpeed(80);
-    	    rightMotor.setSpeed(80);
-	        leftMotor.backward();
-	        rightMotor.backward();
-        }
-    }
+        leftMotor.setSpeed(0);
+    	rightMotor.setSpeed(0);
+        frontMotor.setSpeed(0);
+        System.out.println("home :)");        }
 protected static void goforward(int count) {
     	leftMotor.resetTachoCount();
     	rightMotor.resetTachoCount();
@@ -165,44 +164,48 @@ private static void waitfor(int count, boolean leftback, boolean rightback) {
 private static ColorSensor.Color checkcolor(){
     boolean hooray = false; //Used to break from loop when finds colour
 		//Traverse the line
-		while (hooray == false) {
-			leftMotor.forward();
-    		rightMotor.forward();
-			col = sensor.getColor();
+		//while (hooray == false) {
+		//	leftMotor.forward();
+    	//	rightMotor.forward();
+		//	col = sensor.getColor();
 
 			// Turn until found line
-			while (col == ColorSensor.Color.BLACK && col != ColorSensor.Color.WHITE) {
+		//	while (col == ColorSensor.Color.BLACK && col != ColorSensor.Color.WHITE) {
 				//Turning left
-				leftMotor.resetTachoCount();
-    			rightMotor.resetTachoCount();
-    			leftMotor.backward();
-    			rightMotor.forward();
-    			waitfor(45,true,false);
-				col = sensor.getColor();
+		//		leftMotor.resetTachoCount();
+    	//		rightMotor.resetTachoCount();
+    	//		leftMotor.backward();
+    	//		rightMotor.forward();
+    	//		waitfor(45,true,false);
+		//		col = sensor.getColor();
 				// If the line is not found, turn right
-				if (col == ColorSensor.Color.BLACK) {
-					leftMotor.resetTachoCount();
-    				rightMotor.resetTachoCount();
-    				leftMotor.forward();
-    				rightMotor.backward();
-					waitfor(90,false,true);
-					col = sensor.getColor();
-				}
+		//		if (col == ColorSensor.Color.BLACK) {
+		//			leftMotor.resetTachoCount();
+    	//			rightMotor.resetTachoCount();
+    	//			leftMotor.forward();
+    	//			rightMotor.backward();
+		//			waitfor(90,false,true);
+		//			col = sensor.getColor();
+		//		}
 			// Hack cuz sensor trash. Must check the colour 10 times
             int count = 0;
+            ColorSensor.Color precol = sensor.getColor();
 			for (int i = 0; i < 15; i++) {
 				sensor.setFloodlightState(ColorSensor.FloodlightState.WHITE);
 				col = sensor.getColor();
-				if (col != ColorSensor.Color.BLACK && col != ColorSensor.Color.WHITE) {
-					count++;
-					System.out.println(col);
+				//if (col != ColorSensor.Color.BLACK && col != ColorSensor.Color.WHITE) {
+					if (precol == col) {
+                        count++;
+                    }
+                    
+				//	System.out.println(col);
 				}
-			}
+			//}
 			if (count == 15) {
 				hooray = true; // Will break out of the loop
 			}
-		}
-        }
+		
+        
     return col;
 }
 }
