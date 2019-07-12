@@ -1,0 +1,8 @@
+•	Zaki – intro to NATDAV and what it can do
+•	Clara – context and reasons behind NATDAV
+•	Demo
+•	Caleb – how it works with sensors and controls
+•	Sai – physical design of the robot
+•	James – what aspirations we had and features that we couldn’t implement
+•	Zaki – potential additions for the future
+•	Kate – summary and end
