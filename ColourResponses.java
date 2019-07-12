@@ -1,4 +1,4 @@
-import com.sun.org.apache.xpath.internal.operations.And;
+//import com.sun.org.apache.xpath.internal.operations.And;
 
 import ShefRobot.*;
 import java.util.Scanner;
@@ -17,7 +17,7 @@ public class ColourResponses {
     private static ColorSensor.Color col;			
     private static GyroSensor gyro;
     public static void main(String[] args) {	
-    	robot = new Robot("dia-lego-f8");
+    	robot = new Robot("dia-lego-g6");
     	leftMotor = robot.getLargeMotor(Motor.Port.A);
     	rightMotor = robot.getLargeMotor(Motor.Port.B);
         frontMotor = robot.getLargeMotor(Motor.Port.C);
@@ -42,6 +42,7 @@ public class ColourResponses {
 		 	    speaker.playTone(567,077);
 		 	    System.out.println("WATER DETECTED");
                 blue();
+				System.out.println("col");
             }
             else if (col == ColorSensor.Color.GREEN) {
 			    speaker.playTone(100,453);
@@ -70,15 +71,17 @@ public class ColourResponses {
         
     
     private static void blue() {
+		System.out.println(col);
+        System.out.println("in blue");
         frontMotor.setSpeed(0);
         checkcolor();
         while (col==ColorSensor.Color.BLUE){
-            gobackward(2);
-            checkcolor();
+            gobackward(20);
+            col=sensor.getColor();
             System.out.println(col);
+            System.out.println("in loop");
         }
-    
-
+		System.out.println("Hello");
         turnRight(100);//turn 90 degrees
         goforward(100);//forwards radius of circle
         turnLeft(100);//turn towards top of circle
@@ -122,7 +125,7 @@ protected static void gobackward(int count) {
     	rightMotor.resetTachoCount();
     	leftMotor.backward();
     	rightMotor.backward();
-    	waitfor(count,false,false);
+    	waitfor(count,true,true);
     }   
 
 protected static void turnRight(int count) {
@@ -162,7 +165,7 @@ private static void waitfor(int count, boolean leftback, boolean rightback) {
     	} while(!(lf && rf));
     }
 private static ColorSensor.Color checkcolor(){
-    boolean hooray = false; //Used to break from loop when finds colour
+   // boolean hooray = false; //Used to break from loop when finds colour
 		//Traverse the line
 		//while (hooray == false) {
 		//	leftMotor.forward();
@@ -194,16 +197,16 @@ private static ColorSensor.Color checkcolor(){
 				sensor.setFloodlightState(ColorSensor.FloodlightState.WHITE);
 				col = sensor.getColor();
 				//if (col != ColorSensor.Color.BLACK && col != ColorSensor.Color.WHITE) {
-					if (precol == col) {
-                        count++;
-                    }
+				if (precol == col) {
+                    count++;
+                }
                     
-				//	System.out.println(col);
-				}
-			//}
-			if (count == 15) {
-				hooray = true; // Will break out of the loop
+				//System.out.println(col);
 			}
+			//}
+			//if (count == 15) {
+				//hooray = true; // Will break out of the loop
+			//}
 		
         
     return col;
